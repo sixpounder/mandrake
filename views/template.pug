@@ -1,0 +1,8 @@
+extends layout
+
+block menu
+  div.list-group.list-group-root.hidden-xs!= renderTree()
+
+block content
+  if html
+    p!= html
