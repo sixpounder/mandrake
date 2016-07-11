@@ -5,7 +5,7 @@ var path    = require('path');
 var tree    = require('./lib/tree');
 
 module.exports = function mandrake(options, cb) {
-  _.defaults(options, {path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true});
+  _.defaults(options, {path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true, log: true});
 
   options.resolvedPath = path.resolve(options.path);
 
@@ -14,13 +14,15 @@ module.exports = function mandrake(options, cb) {
   options = _.defaultsDeep(manifest, options);
 
   options.docsPath = path.resolve(options.resolvedPath, options.docsPath);
-  console.log(options);
+  
   var app;
 
   if(_.isUndefined(options.app)) {
     app = express();
     try {
-      app.use(require('morgan')('dev'));
+      if(options.log === true) {
+        app.use(require('morgan')('dev'));
+      }
     } catch (e) {
       console.log("Module morgan not installed. Please npm install it if you wish to see request logs.");
     }
