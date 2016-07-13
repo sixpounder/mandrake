@@ -7,10 +7,15 @@ var tree    = require('./lib/tree');
 module.exports = function mandrake(options, cb) {
   _.defaults(options, {name: '', path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true, log: true});
 
+  var manifest;
   options.resolvedPath = path.resolve(options.path);
 
-  var manifest = require(path.resolve(options.resolvedPath, 'mandrake.json'));
-
+  try {
+    manifest = require(path.resolve(options.resolvedPath, 'mandrake.json'));
+  } catch(e) {
+    manifest = {};
+  }
+  
   options = _.defaultsDeep(manifest, options);
 
   options.docsPath = path.resolve(options.resolvedPath, options.docsPath);
