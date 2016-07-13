@@ -43,6 +43,7 @@ For instance, with the programmatic example above, this file could contain a val
 ```javascript
 mandrake(options, callback);
 ```
+
 ### Options
 type: *object*
 Can specify one or more of the following properties:
