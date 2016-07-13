@@ -20,7 +20,7 @@ var express = require('express');
 
 var app = express();
 
-app.use(mandrake({docsPath: './docs')});
+app.use(mandrake({path: './docs')});
 
 var http = require('http');
 

@@ -1,48 +1,33 @@
-var express = require('express');
 var _       = require('lodash');
 var path    = require('path');
-
 var tree    = require('./lib/tree');
+var express = require('express');
 
 module.exports = function mandrake(options, cb) {
-  _.defaults(options, {name: '', path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true, log: true});
+  if(_.isUndefined(options)) {
+    options = {};
+  }
+
+  _.defaults(options, {name: '', path: './', mountPoint: '', template: 'template', viewEngine: 'pug', views: 'views', cache: true, log: true});
 
   var manifest;
-  options.resolvedPath = path.resolve(options.path);
+  options.path = path.resolve(options.path);
 
   try {
-    manifest = require(path.resolve(options.resolvedPath, 'mandrake.json'));
+    manifest = require(path.resolve(options.path, 'mandrake.json'));
   } catch(e) {
     manifest = {};
   }
-  
+
   options = _.defaultsDeep(manifest, options);
 
-  options.docsPath = path.resolve(options.resolvedPath, options.docsPath);
-
-  var app;
-
-  if(_.isUndefined(options.app)) {
-    app = express();
-    try {
-      if(options.log === true) {
-        app.use(require('morgan')('dev'));
-      }
-    } catch (e) {
-      console.log("Module morgan not installed. Please npm install it if you wish to see request logs.");
-    }
-
-    app.set('views', './views');
-    app.set('view engine', 'pug');
+  if(options.docsPath) {
+    options.docsPath = path.resolve(options.path, options.docsPath);
   } else {
-    app = options.app;
+    options.docsPath = options.path;
   }
 
-  if(manifest.statics) {
-    _.forEach(manifest.statics, function(s) {
-      app.use(express.static(path.resolve(options.resolvedPath, s)));
-    });
-  }
+  console.log(options);
 
   var router = express.Router();
 
@@ -54,10 +39,8 @@ module.exports = function mandrake(options, cb) {
         return null;
       }
     } else {
-      app.use(options.mountPoint, modifiedRouter);
-
       if(_.isFunction(cb)) {
-        return cb(null, options.app ? modifiedRouter : app);
+        return cb(null, modifiedRouter);
       } else {
         return null;
       }
