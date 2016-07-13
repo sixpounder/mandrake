@@ -5,7 +5,7 @@ var path    = require('path');
 var tree    = require('./lib/tree');
 
 module.exports = function mandrake(options, cb) {
-  _.defaults(options, {path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true, log: true});
+  _.defaults(options, {name: '', path: './', mountPoint: '/', docsPath: './', app: undefined, template: 'template', cache: true, log: true});
 
   options.resolvedPath = path.resolve(options.path);
 
@@ -14,7 +14,7 @@ module.exports = function mandrake(options, cb) {
   options = _.defaultsDeep(manifest, options);
 
   options.docsPath = path.resolve(options.resolvedPath, options.docsPath);
-  
+
   var app;
 
   if(_.isUndefined(options.app)) {
