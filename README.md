@@ -30,7 +30,8 @@ mandrake({path: __dirname}, function(err, router) {
 
   var server = http.createServer(app);
   server.listen(3000);
-});```
+});
+```
 
 ## Manifest
 When you use mandrake, either cli or programmatic, it will look into ```path``` for a file named **mandrake.json**. Any value in this json file will be used to override settings for mandrake.
