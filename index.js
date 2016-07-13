@@ -8,7 +8,7 @@ module.exports = function mandrake(options, cb) {
     options = {};
   }
 
-  _.defaults(options, {name: '', path: './', mountPoint: '', template: 'template', viewEngine: 'pug', views: 'views', cache: true, log: true});
+  _.defaults(options, {name: '', path: './', mountPoint: '', template: 'template', viewEngine: 'pug', views: __dirname + '/views', cache: true, log: true});
 
   var manifest;
   options.path = path.resolve(options.path);
