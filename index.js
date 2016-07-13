@@ -8,7 +8,7 @@ module.exports = function mandrake(options, cb) {
     options = {};
   }
 
-  _.defaults(options, {name: '', path: './', mountPoint: '', template: 'template', viewEngine: 'pug', views: __dirname + '/views', cache: true, log: true});
+  _.defaults(options, {name: '', path: process.cwd(), mountPoint: '', template: 'template', viewEngine: 'pug', views: __dirname + '/views', cache: true, log: true});
 
   var manifest;
   options.path = path.resolve(options.path);
@@ -26,8 +26,6 @@ module.exports = function mandrake(options, cb) {
   } else {
     options.docsPath = options.path;
   }
-
-  console.log(options);
 
   var router = express.Router();
 
